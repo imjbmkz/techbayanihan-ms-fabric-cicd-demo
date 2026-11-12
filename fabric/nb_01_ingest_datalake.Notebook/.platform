@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_01_ingest_datalake",
+    "description": "Downloads NYC TLC yellow taxi trip parquet files into the data lake layer (Files/datalake/nyc_tlc/yellow_taxi_trips)."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c90ec142-7221-4124-88e6-67d12ed730ae"
+  }
+}
