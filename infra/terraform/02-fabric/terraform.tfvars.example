@@ -1,0 +1,2 @@
+# Optional: copy to terraform.tfvars to override defaults.
+# capacity_name = "fabnyctaxidemo"
