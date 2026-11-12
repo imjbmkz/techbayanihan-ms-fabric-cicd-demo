@@ -5,35 +5,18 @@
 # META {
 # META   "kernel_info": {
 # META     "name": "synapse_pyspark"
-# META   },
-# META   "dependencies": {
-# META     "lakehouse": {
-# META       "default_lakehouse": "a05dbecc-1c93-44b9-8c73-8b6bff7026b1",
-# META       "default_lakehouse_name": "AwesomeLH_dev",
-# META       "default_lakehouse_workspace_id": "e1127f86-76fc-45a2-8c21-350a41e41a8d",
-# META       "known_lakehouses": [
-# META         {
-# META           "id": "a05dbecc-1c93-44b9-8c73-8b6bff7026b1"
-# META         }
-# META       ]
-# META     }
 # META   }
 # META }
 
 # MARKDOWN ********************
 
-# # nb_01_ingest_datalake
-#
+# # nb_01_ingest_yellow_taxi_trips
 # Downloads NYC TLC **yellow taxi trip** parquet files from the public TLC endpoint into the **data lake** layer of the default lakehouse:
-#
 # ```
 # Files/datalake/nyc_tlc/yellow_taxi_trips/year=YYYY/month=MM/yellow_tripdata_YYYY-MM.parquet
 # ```
-#
 # **Environment-agnostic:** paths are relative to the notebook's *default lakehouse*, so the same code runs in dev / QA / prod once fabric-cicd rebinds the default lakehouse (`AwesomeLH_dev` → `AwesomeLH_qa` / `AwesomeLH_prod`).
-#
 # **Parameters** (next cell is the *parameters cell*, so pipeline Notebook activities can override them):
-#
 # | Parameter | Default | Meaning |
 # |---|---|---|
 # | `start_month` | `2024-01` | First month to load (`YYYY-MM`) |
@@ -43,14 +26,8 @@
 # | `target_folder` | `Files/datalake/nyc_tlc/yellow_taxi_trips` | Landing folder in the default lakehouse |
 # | `overwrite` | `false` | Re-download files that already exist |
 # | `fail_on_missing` | `false` | Fail the run if a month isn't published yet |
-#
 # The notebook exits with a JSON summary (`notebookutils.notebook.exit`) that the pipeline can read.
 
-# METADATA ********************
-
-# META {
-# META   "language": "markdown"
-# META }
 
 # PARAMETERS CELL ********************
 
