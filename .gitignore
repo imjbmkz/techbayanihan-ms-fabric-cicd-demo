@@ -6,7 +6,16 @@ crash.log
 *.tfvars
 !*.tfvars.example
 *.tfplan
+tfplan
+**/tfplan
 .terraform.lock.hcl.bak
+
+# Keep .terraform.lock.hcl tracked (pins provider versions)
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
 
 # Python
 .venv/
