@@ -5,6 +5,18 @@
 # META {
 # META   "kernel_info": {
 # META     "name": "synapse_pyspark"
+# META   },
+# META   "dependencies": {
+# META     "lakehouse": {
+# META       "default_lakehouse": "a05dbecc-1c93-44b9-8c73-8b6bff7026b1",
+# META       "default_lakehouse_name": "AwesomeLH_dev",
+# META       "default_lakehouse_workspace_id": "e1127f86-76fc-45a2-8c21-350a41e41a8d",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "a05dbecc-1c93-44b9-8c73-8b6bff7026b1"
+# META         }
+# META       ]
+# META     }
 # META   }
 # META }
 
@@ -31,8 +43,8 @@
 
 # PARAMETERS CELL ********************
 
-start_month = "2024-01"
-end_month = ""
+start_month = "2026-01"
+end_month = "2026-09"
 source_base_url = "https://d37ci6vzurychx.cloudfront.net/trip-data"
 file_prefix = "yellow_tripdata"
 target_folder = "Files/datalake/nyc_tlc/yellow_taxi_trips"
