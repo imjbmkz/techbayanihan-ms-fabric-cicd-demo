@@ -42,6 +42,7 @@
 # | `invalid_location_id` | pickup/dropoff zone missing or outside 1–265 |
 # Every object is rebuilt with `CREATE OR REPLACE` on each run, so the definitions in Git are always what's deployed. A rule summary is saved in the step `details` of `ops.notebook_steps`.
 
+
 # PARAMETERS CELL ********************
 
 run_id = ""                      # pipeline: @pipeline().RunId  ("" = generated)

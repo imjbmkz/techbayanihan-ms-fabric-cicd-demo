@@ -37,6 +37,7 @@
 # Raw tables keep the source columns *as delivered* plus lineage columns: `_source_file`, `_source_modified_at`, `_ingested_at`, `_run_id`, and `_src_<key>` for every `key=value` folder in the path (e.g. `_src_year`, `_src_month`).
 # **Incremental logic:** a file is loaded if its path isn't in the target yet, or if it was re-landed with a newer modified time (its old rows are deleted first). Column types are aligned to the existing table; new columns are added (`mergeSchema`).
 
+
 # PARAMETERS CELL ********************
 
 # --- Scope ----------------------------------------------------------------
