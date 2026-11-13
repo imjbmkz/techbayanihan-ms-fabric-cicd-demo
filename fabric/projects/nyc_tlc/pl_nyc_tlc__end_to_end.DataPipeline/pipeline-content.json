@@ -1,0 +1,258 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "c90ec142-7221-4124-88e6-67d12ed730ae",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "start_month": {
+              "value": "2026-01",
+              "type": "string"
+            },
+            "end_month": {
+              "value": "2026-09",
+              "type": "string"
+            },
+            "trip_type": {
+              "value": "yellow",
+              "type": "string"
+            },
+            "include_trips": {
+              "value": true,
+              "type": "bool"
+            },
+            "include_reference": {
+              "value": true,
+              "type": "bool"
+            },
+            "extract_zones_zip": {
+              "value": true,
+              "type": "bool"
+            },
+            "source_base_url": {
+              "value": "https://d37ci6vzurychx.cloudfront.net",
+              "type": "string"
+            },
+            "datalake_root": {
+              "value": "Files/datalake/nyc_tlc",
+              "type": "string"
+            },
+            "overwrite": {
+              "value": false,
+              "type": "bool"
+            },
+            "fail_on_missing": {
+              "value": false,
+              "type": "bool"
+            },
+            "run_id": {
+              "value": {
+                "value": "@pipeline().Pipeline",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "pipeline_name": {
+              "value": {
+                "value": "@pipeline().PipelineName",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "log_schema": {
+              "value": "ops",
+              "type": "string"
+            },
+            "log_folder": {
+              "value": "Files/logs",
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "nb_01_ingest_nyc_tlc",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "95ce001e-10b1-46c6-ba46-75a9143341eb",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "config_table": {
+              "value": "ops.raw_ingestion_config",
+              "type": "string"
+            },
+            "run_ingestion": {
+              "value": true,
+              "type": "bool"
+            },
+            "force_full_reload": {
+              "value": false,
+              "type": "bool"
+            },
+            "ingestion_timeout_s": {
+              "value": "3600",
+              "type": "int"
+            },
+            "run_id": {
+              "value": {
+                "value": "@pipeline().Pipeline",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "pipeline_name": {
+              "value": {
+                "value": "@pipeline().PipelineName",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "nb_02_nyc_tlc_raw_config",
+        "dependsOn": [
+          {
+            "activity": "nb_01_ingest_nyc_tlc",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "db68d1b6-d4cc-41d7-ad32-b708a9dc089a",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "run_id": {
+              "value": {
+                "value": "@pipeline().Pipeline",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "pipeline_name": {
+              "value": {
+                "value": "@pipeline().PipelineName",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "nb_03_nyc_tlc_cleaned",
+        "dependsOn": [
+          {
+            "activity": "nb_02_nyc_tlc_raw_config",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "e6d8c6f8-d7e8-47fc-b5b2-f346c28ff815",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "run_id": {
+              "value": {
+                "value": "@pipeline().Pipeline",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "pipeline_name": {
+              "value": {
+                "value": "@pipeline().PipelineName",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "nb_04_nyc_tlc_mart",
+        "dependsOn": [
+          {
+            "activity": "nb_03_nyc_tlc_cleaned",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "fbf580ed-abfe-44b1-8c56-45da9d242559",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "run_id": {
+              "value": {
+                "value": "@pipeline().Pipeline",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "pipeline_name": {
+              "value": {
+                "value": "@pipeline().PipelineName",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "nb_05_nyc_tlc_semantic",
+        "dependsOn": [
+          {
+            "activity": "nb_04_nyc_tlc_mart",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

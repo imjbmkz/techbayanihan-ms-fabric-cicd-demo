@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "pl_nyc_tlc__end_to_end"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ecab3349-110f-9246-4d85-6a75b04ce889"
+  }
+}
