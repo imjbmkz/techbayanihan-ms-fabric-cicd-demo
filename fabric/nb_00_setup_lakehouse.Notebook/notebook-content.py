@@ -23,7 +23,7 @@
 # CELL ********************
 
 # Idempotent: safe to run in every environment, every time.
-for schema in ["raw", "cleaned", "mart", "semantic"]:
+for schema in ["raw", "cleaned", "mart", "semantic", "ops"]:  # ops = run logs / audit
     spark.sql(f"CREATE SCHEMA IF NOT EXISTS {schema}")
 
 # METADATA ********************
@@ -47,7 +47,7 @@ display(spark.sql("SHOW SCHEMAS"))
 # CELL ********************
 
 # "data lake" layer = Files area, acts like the S3 landing zone
-for folder in ["datalake/nyc_tlc/yellow_taxi_trips", "datalake/nyc_tlc/taxi_zones"]:
+for folder in ["datalake/nyc_tlc/yellow_taxi_trips", "datalake/nyc_tlc/taxi_zones", "logs"]:
     notebookutils.fs.mkdirs(f"Files/{folder}")
 
 # METADATA ********************
