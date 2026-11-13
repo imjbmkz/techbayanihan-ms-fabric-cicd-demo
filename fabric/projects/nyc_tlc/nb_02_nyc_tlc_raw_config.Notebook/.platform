@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_02_nyc_tlc_raw_config",
+    "description": "Declares the nyc_tlc raw sources in ops.raw_ingestion_config (MERGE). Run before nb_raw_ingest."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "95ce001e-10b1-46c6-ba46-75a9143341eb"
+  }
+}

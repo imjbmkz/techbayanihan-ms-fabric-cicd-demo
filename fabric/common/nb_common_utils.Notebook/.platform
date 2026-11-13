@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_common_utils",
+    "description": "Shared helpers: RunLogger (step-level runtime logs/errors to ops.notebook_runs / ops.notebook_steps + Files/logs), table_exists, to_bool."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "d96a5c79-73ae-42b3-a125-94e873778819"
+  }
+}

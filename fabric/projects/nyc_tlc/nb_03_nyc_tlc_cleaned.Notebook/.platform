@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_03_nyc_tlc_cleaned",
+    "description": "raw -> cleaned: typed yellow taxi trips with DQ flags (__dq table) and materialized lake views for passed (__cleaned) and failed (__quarantined) rows; cleaned taxi zone lookup."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "db68d1b6-d4cc-41d7-ad32-b708a9dc089a"
+  }
+}
