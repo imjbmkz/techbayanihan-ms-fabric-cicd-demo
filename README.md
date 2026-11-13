@@ -103,6 +103,26 @@ terraform init && terraform plan -out tfplan && terraform apply tfplan
 
 In `ws-demo-dev`, open **Workspace settings → Git integration**, then connect this repo, branch `main`, Git folder `fabric`.
 
+## Deployment (QA → Prod)
+
+GitHub Actions + [`fabric-cicd`](https://microsoft.github.io/fabric-cicd/), workflow `.github/workflows/deploy-fabric.yml`:
+
+```
+dev workspace ──commit──▶ main ──push──▶ deploy-qa (auto) ──▶ deploy-prod (gated, off by default)
+```
+
+- `deploy/deploy.py --environment qa|prod` resolves the target workspace and lakehouse **by name** (`deploy/environments.json`), generates `fabric/parameter.yml` (dev lakehouse/workspace IDs → target IDs; not committed), publishes **Notebooks and DataPipelines**, and removes orphans of those types. Lakehouses are owned by Terraform and never deployed by fabric-cicd.
+- `--run-pipeline` (or the *Run workflow* checkbox) runs `pl_nyc_tlc__end_to_end` in QA after deploying and waits for the result.
+- Auth: a service principal with **OIDC federated credentials** (no client secret in GitHub).
+
+One-time setup:
+1. `scripts/create-github-deployer-sp.sh` (Cloud Shell): creates the service principal, federated credentials for the `qa`/`prod` GitHub environments, and a security group.
+2. Fabric Admin portal → Tenant settings → *Service principals can use Fabric APIs* → enabled for that security group.
+3. `terraform apply` in `infra/terraform/02-fabric` with `deployer_object_id` → the service principal becomes Contributor on `ws-demo-qa` / `ws-demo-prod`.
+4. GitHub → Settings → Environments: create `qa` (and `prod` with a required reviewer). Repository variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`; `ENABLE_PROD_DEPLOY=true` when Prod is ready.
+
+Try it locally first: `az login` as yourself, `pip install -r deploy/requirements.txt`, then `python deploy/deploy.py -e qa --dry-run`.
+
 ### Cost control
 
 Pause the capacity when you're not using it, because compute is only billed while it's active:

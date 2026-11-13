@@ -4,6 +4,22 @@
       {
         "type": "TridentNotebook",
         "typeProperties": {
+          "notebookId": "e369717c-97ee-a88b-4bd8-9209b6bd2089",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "nb_00_setup_lakehouse",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
           "notebookId": "c90ec142-7221-4124-88e6-67d12ed730ae",
           "workspaceId": "00000000-0000-0000-0000-000000000000",
           "parameters": {
@@ -49,7 +65,7 @@
             },
             "run_id": {
               "value": {
-                "value": "@pipeline().Pipeline",
+                "value": "@pipeline().RunId",
                 "type": "Expression"
               },
               "type": "string"
@@ -73,13 +89,20 @@
         },
         "policy": {
           "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
+          "retry": 2,
+          "retryIntervalInSeconds": 120,
           "secureInput": false,
           "secureOutput": false
         },
         "name": "nb_01_ingest_nyc_tlc",
-        "dependsOn": []
+        "dependsOn": [
+          {
+            "activity": "nb_00_setup_lakehouse",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
       },
       {
         "type": "TridentNotebook",
@@ -105,7 +128,7 @@
             },
             "run_id": {
               "value": {
-                "value": "@pipeline().Pipeline",
+                "value": "@pipeline().RunId",
                 "type": "Expression"
               },
               "type": "string"
@@ -144,7 +167,7 @@
           "parameters": {
             "run_id": {
               "value": {
-                "value": "@pipeline().Pipeline",
+                "value": "@pipeline().RunId",
                 "type": "Expression"
               },
               "type": "string"
@@ -183,7 +206,7 @@
           "parameters": {
             "run_id": {
               "value": {
-                "value": "@pipeline().Pipeline",
+                "value": "@pipeline().RunId",
                 "type": "Expression"
               },
               "type": "string"
@@ -222,7 +245,7 @@
           "parameters": {
             "run_id": {
               "value": {
-                "value": "@pipeline().Pipeline",
+                "value": "@pipeline().RunId",
                 "type": "Expression"
               },
               "type": "string"
