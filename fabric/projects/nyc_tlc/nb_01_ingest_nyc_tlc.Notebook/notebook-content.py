@@ -24,27 +24,24 @@
 
 # # nb_01_ingest_nyc_tlc
 # Lands NYC TLC source files, unchanged, in the **data lake** layer (`Files/`) of the default lakehouse.
-#
 # | Source | URL | Lands in |
 # |---|---|---|
 # | Trip records (per month) | `{source_base_url}/trip-data/{trip_type}_tripdata_{YYYY}-{MM}.parquet` | `{datalake_root}/{trip_type}_taxi_trips/year=YYYY/month=MM/` |
 # | Taxi zone lookup (fixed) | `{source_base_url}/misc/taxi_zone_lookup.csv` | `{datalake_root}/taxi_zones/taxi_zone_lookup.csv` |
 # | Taxi zone shapefile (fixed) | `{source_base_url}/misc/taxi_zones.zip` | `{datalake_root}/taxi_zones/taxi_zones.zip` (+ extracted to `shapefile/`) |
-#
 # **Orchestration**
 # - Every value in the parameters cell can be overridden by a pipeline *Notebook activity*. Pass `run_id = @pipeline().RunId` and `pipeline_name = @pipeline().Pipeline` so logs can be traced back to the pipeline run.
 # - Idempotent: files already landed are skipped unless `overwrite = true`, so retries are safe.
 # - Exits with a JSON summary (`notebookutils.notebook.exit`) that the pipeline can read: `@activity('<name>').output.result.exitValue`.
 # - The run **fails** (activity turns red) if any file fails, or if a month is not published and `fail_on_missing = true`. Logs are written first.
-#
 # **Runtime logs and errors**
 # | Where | Grain | Content |
 # |---|---|---|
 # | `ops.ingestion_runs` (Delta) | 1 row per run | parameters, status, counts, duration, error + traceback |
 # | `ops.ingestion_log` (Delta) | 1 row per file | URL, target path, status, rows, bytes, sha256, duration, error + traceback |
 # | `Files/logs/nb_01_ingest_nyc_tlc/date=YYYY-MM-DD/<run_id>.log` | text | full runtime log |
-#
 # Paths are relative to the *default lakehouse*, so the same code runs in dev / QA / prod after fabric-cicd rebinds it.
+
 
 # PARAMETERS CELL ********************
 
