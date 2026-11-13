@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
     "type": "Notebook",
-    "displayName": "nb_01_ingest_yellow_taxi_trips",
-    "description": "Downloads NYC TLC yellow taxi trip parquet files into the data lake layer (Files/datalake/nyc_tlc/yellow_taxi_trips)."
+    "displayName": "nb_01_ingest_nyc_tlc",
+    "description": "Lands NYC TLC trip parquet files and taxi zone reference files into the data lake layer, with run logs in ops.ingestion_runs / ops.ingestion_log."
   },
   "config": {
     "version": "2.0",
