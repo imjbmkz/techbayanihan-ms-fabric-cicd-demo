@@ -22,3 +22,5 @@ Thumbs.db
 __pycache__/
 
 .env
+# fabric-cicd parameter file is generated at deploy time by deploy/deploy.py
+fabric/parameter.yml

@@ -26,3 +26,15 @@ resource "fabric_lakehouse" "env" {
     enable_schemas = true
   }
 }
+
+# The GitHub Actions service principal (fabric-cicd) can publish items to QA and Prod.
+resource "fabric_workspace_role_assignment" "deployer" {
+  for_each = var.deployer_object_id == "" ? toset([]) : toset(var.deploy_target_environments)
+
+  workspace_id = fabric_workspace.env[each.key].id
+  principal = {
+    id   = var.deployer_object_id
+    type = "ServicePrincipal"
+  }
+  role = var.deployer_role
+}

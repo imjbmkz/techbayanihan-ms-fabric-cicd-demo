@@ -1,2 +1,5 @@
 # Optional: copy to terraform.tfvars to override defaults.
 # capacity_name = "fabnyctaxidemo"
+
+# Object ID of the deployment service principal (printed by scripts/create-github-deployer-sp.sh)
+# deployer_object_id = "00000000-0000-0000-0000-000000000000"

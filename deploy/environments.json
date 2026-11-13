@@ -1,0 +1,16 @@
+{
+  "repository_directory": "fabric",
+  "item_types_in_scope": ["Notebook", "DataPipeline"],
+  "environments": {
+    "qa": {
+      "workspace_name": "ws-demo-qa",
+      "lakehouse_name": "AwesomeLH_qa",
+      "pipelines_to_run": ["pl_nyc_tlc__end_to_end"]
+    },
+    "prod": {
+      "workspace_name": "ws-demo-prod",
+      "lakehouse_name": "AwesomeLH_prod",
+      "pipelines_to_run": ["pl_nyc_tlc__end_to_end"]
+    }
+  }
+}

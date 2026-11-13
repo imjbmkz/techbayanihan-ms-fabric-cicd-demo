@@ -25,3 +25,21 @@ variable "environments" {
     }
   }
 }
+
+variable "deployer_object_id" {
+  description = "Object ID of the GitHub Actions deployment service principal (scripts/create-github-deployer-sp.sh). Empty = no role assignment."
+  type        = string
+  default     = ""
+}
+
+variable "deployer_role" {
+  description = "Workspace role for the deployment service principal."
+  type        = string
+  default     = "Contributor"
+}
+
+variable "deploy_target_environments" {
+  description = "Environments the deployment service principal can deploy to (dev is deployed through Git integration)."
+  type        = list(string)
+  default     = ["qa", "prod"]
+}
