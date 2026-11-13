@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_04_nyc_tlc_mart",
+    "description": "cleaned -> mart: star schema for yellow taxi trips (dim_date, dim_zone, dim_vendor, dim_payment_type, dim_rate_code, fact_yellow_taxi_trips)."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e6d8c6f8-d7e8-47fc-b5b2-f346c28ff815"
+  }
+}

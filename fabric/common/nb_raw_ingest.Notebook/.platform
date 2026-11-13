@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_raw_ingest",
+    "description": "Generic metadata-driven ingestion: data lake files -> raw Delta tables, driven by ops.raw_ingestion_config."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "6589e00b-18dc-4e0f-ba9b-3e6b268225d4"
+  }
+}

@@ -39,6 +39,33 @@ Inter-layer transforms run as PySpark / Spark SQL notebooks, orchestrated by a d
 └── scripts/                  # one-off helper scripts
 ```
 
+## Notebooks and run order
+
+| # | Notebook | Folder | Does |
+|---|---|---|---|
+| 0 | `nb_00_setup_lakehouse` | root | schemas (`raw`, `cleaned`, `mart`, `semantic`, `ops`) + `Files/` folders |
+| 1 | `nb_01_ingest_nyc_tlc` | `projects/nyc_tlc` | source → data lake (`Files/datalake/nyc_tlc/...`) |
+| 2 | `nb_02_nyc_tlc_raw_config` | `projects/nyc_tlc` | declares nyc_tlc sources in `ops.raw_ingestion_config` |
+| 3 | `nb_raw_ingest` (`domain = nyc_tlc`) | `common` | **generic, metadata-driven** data lake → raw |
+| 4 | `nb_03_nyc_tlc_cleaned` | `projects/nyc_tlc` | raw → cleaned: DQ table + materialized lake views |
+| 5 | `nb_04_nyc_tlc_mart` | `projects/nyc_tlc` | cleaned → mart: dims + fact |
+| 6 | `nb_05_nyc_tlc_semantic` | `projects/nyc_tlc` | mart → semantic: report aggregates |
+| – | `nb_common_utils` | `common` | shared `RunLogger`, loaded with `%run` |
+
+Every notebook takes `run_id` / `pipeline_name` parameters and logs to `ops.notebook_runs` and `ops.notebook_steps` (`nb_01` logs to `ops.ingestion_runs` / `ops.ingestion_log`) plus a text log under `Files/logs/`.
+
+## Table naming convention
+
+`<schema>.<domain>__<name>`. The schema is the layer, and the double underscore separates the domain, dataset and role.
+
+| Layer | Pattern | Example |
+|---|---|---|
+| raw | `raw.<domain>__<dataset>__raw` | `raw.nyc_tlc__yellow_taxi_trips__raw` |
+| cleaned | `cleaned.<domain>__<dataset>__dq` / `__cleaned` / `__quarantined` | `cleaned.nyc_tlc__yellow_taxi_trips__cleaned` |
+| mart | `mart.<domain>__dim_<entity>` / `mart.<domain>__fact_<dataset>` | `mart.nyc_tlc__fact_yellow_taxi_trips` |
+| semantic | `semantic.<domain>__sem_<subject>` | `semantic.nyc_tlc__sem_daily_zone_trips` |
+| ops | `ops.<name>` | `ops.notebook_runs` |
+
 ### Who owns what
 
 - **Terraform** owns the capacity, workspaces, and lakehouses (all environments).
