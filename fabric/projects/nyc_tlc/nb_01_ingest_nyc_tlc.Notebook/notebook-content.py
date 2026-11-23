@@ -29,11 +29,13 @@
 # | Trip records (per month) | `{source_base_url}/trip-data/{trip_type}_tripdata_{YYYY}-{MM}.parquet` | `{datalake_root}/{trip_type}_taxi_trips/year=YYYY/month=MM/` |
 # | Taxi zone lookup (fixed) | `{source_base_url}/misc/taxi_zone_lookup.csv` | `{datalake_root}/taxi_zones/taxi_zone_lookup.csv` |
 # | Taxi zone shapefile (fixed) | `{source_base_url}/misc/taxi_zones.zip` | `{datalake_root}/taxi_zones/taxi_zones.zip` (+ extracted to `shapefile/`) |
+# 
 # **Orchestration**
 # - Every value in the parameters cell can be overridden by a pipeline *Notebook activity*. Pass `run_id = @pipeline().RunId` and `pipeline_name = @pipeline().Pipeline` so logs can be traced back to the pipeline run.
 # - Idempotent: files already landed are skipped unless `overwrite = true`, so retries are safe.
 # - Exits with a JSON summary (`notebookutils.notebook.exit`) that the pipeline can read: `@activity('<name>').output.result.exitValue`.
 # - The run **fails** (activity turns red) if any file fails, or if a month is not published and `fail_on_missing = true`. Logs are written first.
+# 
 # **Runtime logs and errors**
 # | Where | Grain | Content |
 # |---|---|---|
@@ -43,29 +45,38 @@
 # Paths are relative to the *default lakehouse*, so the same code runs in dev / QA / prod after fabric-cicd rebinds it.
 
 
+# MARKDOWN ********************
+
+# ## Parameters cell
+# Variables inside the cell below are parameters. They can be updated via a job.
+
 # PARAMETERS CELL ********************
 
+""" PARAMETERS CELL
+Variables in this 
+"""
+
 # --- Scope --------------------------------------------------------------
-start_month = "2026-01"          # first trip month, YYYY-MM
-end_month = "2026-09"            # last trip month, YYYY-MM ("" = same as start_month)
-trip_type = "yellow"             # yellow | green | fhv | fhvhv
-include_trips = True             # land monthly trip parquet files
-include_reference = True         # land taxi_zone_lookup.csv + taxi_zones.zip
-extract_zones_zip = True         # also unzip the shapefile into taxi_zones/shapefile/
+START_MONTH = "2025-01"          # first trip month, YYYY-MM
+END_MONTH = "2026-09"            # last trip month, YYYY-MM ("" = same as start_month)
+TRIP_TYPE = "yellow"             # yellow | green | fhv | fhvhv
+INCLUDE_TRIPS = True             # land monthly trip parquet files
+INCLUDE_REFERENCE = True         # land taxi_zone_lookup.csv + taxi_zones.zip
+EXTRACT_ZONES_ZIP = True         # also unzip the shapefile into taxi_zones/shapefile/
 
 # --- Source / target ----------------------------------------------------
-source_base_url = "https://d37ci6vzurychx.cloudfront.net"
-datalake_root = "Files/datalake/nyc_tlc"
+SOURCE_BASE_URL = "https://d37ci6vzurychx.cloudfront.net"
+DATALAKE_ROOT = "Files/datalake/nyc_tlc"
 
 # --- Behaviour ----------------------------------------------------------
-overwrite = False                # re-download files that already exist
-fail_on_missing = False          # fail the run if a trip month isn't published yet
+OVERWRITE = False                # re-download files that already exist
+FAIL_ON_MISSING = False          # fail the run if a trip month isn't published yet
 
 # --- Orchestration / logging ---------------------------------------------
-run_id = ""                      # pipeline: @pipeline().RunId  ("" = generated)
-pipeline_name = ""               # pipeline: @pipeline().Pipeline ("" = manual run)
-log_schema = "ops"
-log_folder = "Files/logs"
+RUN_ID = ""                      # pipeline: @pipeline().RunId  ("" = generated)
+PIPELINE_NAME = ""               # pipeline: @pipeline().Pipeline ("" = manual run)
+LOG_SCHEMA = "ops"
+LOG_FOLDER = "Files/logs"
 
 # METADATA ********************
 
@@ -73,6 +84,10 @@ log_folder = "Files/logs"
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"
 # META }
+
+# MARKDOWN ********************
+
+# ## Setup cell
 
 # CELL ********************
 
@@ -103,10 +118,8 @@ HTTP_HEADERS = {"User-Agent": "Mozilla/5.0 (Fabric notebook; nyc-tlc-cicd-demo)"
 CHUNK_SIZE = 8 * 1024 * 1024
 MAX_RETRIES = 3
 
-
 def utc_now() -> datetime:
     return datetime.now(timezone.utc)
-
 
 def to_bool(value) -> bool:
     """Pipelines often pass booleans as strings ("true"/"false")."""
@@ -114,9 +127,8 @@ def to_bool(value) -> bool:
         return value
     return str(value).strip().lower() in ("1", "true", "yes", "y")
 
-
-run_id = str(run_id).strip() or str(uuid.uuid4())
-pipeline_name = str(pipeline_name).strip() or "manual"
+run_id = str(RUN_ID).strip() or str(uuid.uuid4())
+pipeline_name = str(PIPELINE_NAME).strip() or "manual"
 run_started_at = utc_now()
 
 # Logger -> notebook output + in-memory buffer (persisted to Files/logs at the end)
@@ -147,6 +159,10 @@ logger.info(f"Starting {NOTEBOOK_NAME} (pipeline={pipeline_name})")
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"
 # META }
+
+# MARKDOWN ********************
+
+# ## Helper functions cell
 
 # CELL ********************
 
@@ -260,27 +276,32 @@ def extract_zip_to_lake(local_zip: str, lake_folder: str) -> int:
 # META   "language_group": "synapse_pyspark"
 # META }
 
+# MARKDOWN ********************
+
+# ## Build
+
 # CELL ********************
 
 # ---------------------------------------------------------------------------
 # Build the task list from parameters
 # ---------------------------------------------------------------------------
+
 try:
-    trip_type = str(trip_type).strip().lower()
-    include_trips = to_bool(include_trips)
-    include_reference = to_bool(include_reference)
-    extract_zones_zip = to_bool(extract_zones_zip)
-    overwrite = to_bool(overwrite)
-    fail_on_missing = to_bool(fail_on_missing)
-    base = source_base_url.rstrip("/")
-    root = datalake_root.rstrip("/")
+    trip_type = str(TRIP_TYPE).strip().lower()
+    include_trips = to_bool(INCLUDE_TRIPS)
+    include_reference = to_bool(INCLUDE_REFERENCE)
+    extract_zones_zip = to_bool(EXTRACT_ZONES_ZIP)
+    overwrite = to_bool(OVERWRITE)
+    fail_on_missing = to_bool(FAIL_ON_MISSING)
+    base = SOURCE_BASE_URL.rstrip("/")
+    root = DATALAKE_ROOT.rstrip("/")
 
     if trip_type not in TRIP_TYPES:
         raise ValueError(f"Invalid trip_type '{trip_type}'. Expected one of {sorted(TRIP_TYPES)}.")
     if not (include_trips or include_reference):
         raise ValueError("Nothing to do: include_trips and include_reference are both false.")
 
-    months = month_range(start_month, end_month) if include_trips else []
+    months = month_range(START_MONTH, END_MONTH) if include_trips else []
     for m in months:
         yyyy, mm = m.split("-")
         file_name = f"{trip_type}_tripdata_{yyyy}-{mm}.parquet"
@@ -329,6 +350,10 @@ except Exception as e:
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"
 # META }
+
+# MARKDOWN ********************
+
+# ## Run tasks
 
 # CELL ********************
 
@@ -401,6 +426,10 @@ else:
 # META   "language_group": "synapse_pyspark"
 # META }
 
+# MARKDOWN ********************
+
+# ## Logs
+
 # CELL ********************
 
 # ---------------------------------------------------------------------------
@@ -420,12 +449,12 @@ else:
     run_status = "succeeded"
 
 run_ended_at = utc_now()
-log_file = f"{log_folder.rstrip('/')}/{NOTEBOOK_NAME}/date={run_started_at:%Y-%m-%d}/{run_id}.log"
+log_file = f"{LOG_FOLDER.rstrip('/')}/{NOTEBOOK_NAME}/date={run_started_at:%Y-%m-%d}/{run_id}.log"
 run_parameters = {
-    "start_month": start_month, "end_month": end_month, "trip_type": trip_type,
-    "include_trips": include_trips, "include_reference": include_reference,
-    "extract_zones_zip": extract_zones_zip, "source_base_url": source_base_url,
-    "datalake_root": datalake_root, "overwrite": overwrite, "fail_on_missing": fail_on_missing,
+    "start_month": START_MONTH, "end_month": END_MONTH, "trip_type": TRIP_TYPE,
+    "include_trips": INCLUDE_TRIPS, "include_reference": INCLUDE_REFERENCE,
+    "extract_zones_zip": EXTRACT_ZONES_ZIP, "source_base_url": SOURCE_BASE_URL,
+    "datalake_root": DATALAKE_ROOT, "overwrite": OVERWRITE, "fail_on_missing": FAIL_ON_MISSING,
 }
 run_error_message = run_error["message"] if run_error else (
     "; ".join(f"{' '.join(filter(None, [r['dataset'], r['period']]))}: {r['error_message']}"
@@ -448,7 +477,7 @@ def persist_logs():
     from pyspark.sql.types import (IntegerType, LongType, DoubleType, StringType,
                                    StructField, StructType, TimestampType)
 
-    spark.sql(f"CREATE SCHEMA IF NOT EXISTS {log_schema}")
+    spark.sql(f"CREATE SCHEMA IF NOT EXISTS {LOG_SCHEMA}")
 
     runs_schema = StructType([
         StructField("run_id", StringType()), StructField("notebook", StringType()),
@@ -468,7 +497,7 @@ def persist_logs():
     )]
     (spark.createDataFrame(runs_row, runs_schema)
           .write.mode("append").option("mergeSchema", "true")
-          .saveAsTable(f"{log_schema}.ingestion_runs"))
+          .saveAsTable(f"{LOG_SCHEMA}.ingestion_runs"))
 
     if file_results:
         log_schema_def = StructType([
@@ -489,13 +518,13 @@ def persist_logs():
         ) for r in file_results]
         (spark.createDataFrame(rows, log_schema_def)
               .write.mode("append").option("mergeSchema", "true")
-              .saveAsTable(f"{log_schema}.ingestion_log"))
+              .saveAsTable(f"{LOG_SCHEMA}.ingestion_log"))
 
 
 # Logging must never hide the real outcome: failures here are reported, not raised.
 try:
     persist_logs()
-    logger.info(f"Logs written to {log_schema}.ingestion_runs / {log_schema}.ingestion_log")
+    logger.info(f"Logs written to {LOG_SCHEMA}.ingestion_runs / {LOG_SCHEMA}.ingestion_log")
 except Exception as e:
     logger.error(f"Could not write log tables: {type(e).__name__}: {e}")
 
