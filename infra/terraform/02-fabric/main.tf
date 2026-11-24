@@ -11,14 +11,15 @@ resource "fabric_workspace" "env" {
   capacity_id  = data.fabric_capacity.this.id
 }
 
-# One schema-enabled lakehouse per environment.
-# Terraform owns the lakehouses; Git/fabric-cicd own everything else
-# (notebooks, pipelines, etc.). Schemas and folders inside the lakehouse
-# are created by the nb_00_setup_lakehouse notebook, not Terraform.
+# Schema-enabled lakehouse with the SAME name in every workspace.
+# Terraform creates it in dev only (var.lakehouse_environments); the Fabric
+# deployment pipeline creates and pairs the QA/Prod copies on first deployment.
+# Lakehouse data is never deployed: each environment fills its own lakehouse
+# by running pl_nyc_tlc__end_to_end. Schemas/folders come from nb_00_setup_lakehouse.
 resource "fabric_lakehouse" "env" {
-  for_each = var.environments
+  for_each = toset(var.lakehouse_environments)
 
-  display_name = each.value.lakehouse_name
+  display_name = var.lakehouse_name
   description  = "Data lake (Files) + raw / cleaned / mart / semantic schemas - ${upper(each.key)}"
   workspace_id = fabric_workspace.env[each.key].id
 

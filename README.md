@@ -8,9 +8,9 @@ Dataset: [NYC TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-
 
 | Environment | Workspace | Lakehouse |
 |---|---|---|
-| Dev | `ws-demo-dev` | `AwesomeLH_dev` |
-| QA | `ws-demo-qa` | `AwesomeLH_qa` |
-| Prod | `ws-demo-prod` | `AwesomeLH_prod` |
+| Dev | `ws-demo-dev` | `AwesomeLH` (Terraform) |
+| QA | `ws-demo-qa` | `AwesomeLH` (created by the deployment pipeline) |
+| Prod | `ws-demo-prod` | `AwesomeLH` (created by the deployment pipeline) |
 
 All three workspaces run on one Fabric F2 capacity (`fabnyctaxidemo`).
 

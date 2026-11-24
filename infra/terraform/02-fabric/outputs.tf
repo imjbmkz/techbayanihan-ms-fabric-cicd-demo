@@ -1,9 +1,9 @@
 output "workspace_ids" {
-  description = "Workspace IDs per environment (needed later for GitHub Actions / fabric-cicd)."
+  description = "Workspace IDs per environment."
   value       = { for k, w in fabric_workspace.env : k => w.id }
 }
 
 output "lakehouse_ids" {
-  description = "Lakehouse IDs per environment (needed later for fabric-cicd parameter.yml)."
+  description = "IDs of the lakehouses Terraform manages (dev by default)."
   value       = { for k, l in fabric_lakehouse.env : k => l.id }
 }

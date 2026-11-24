@@ -5,23 +5,35 @@ variable "capacity_name" {
 }
 
 variable "environments" {
-  description = "One entry per environment: workspace name and lakehouse name."
+  description = "One workspace per environment."
   type = map(object({
     workspace_name = string
-    lakehouse_name = string
   }))
   default = {
-    dev = {
-      workspace_name = "ws-demo-dev"
-      lakehouse_name = "AwesomeLH_dev"
-    }
-    qa = {
-      workspace_name = "ws-demo-qa"
-      lakehouse_name = "AwesomeLH_qa"
-    }
-    prod = {
-      workspace_name = "ws-demo-prod"
-      lakehouse_name = "AwesomeLH_prod"
-    }
+    dev  = { workspace_name = "ws-demo-dev" }
+    qa   = { workspace_name = "ws-demo-qa" }
+    prod = { workspace_name = "ws-demo-prod" }
+  }
+}
+
+variable "lakehouse_name" {
+  description = "Lakehouse name, identical in every workspace. Fabric deployment pipelines pair items by type + name, so the name must not carry the environment."
+  type        = string
+  default     = "AwesomeLH"
+}
+
+variable "lakehouse_environments" {
+  description = <<-EOT
+    Environments where Terraform creates the lakehouse. Default: dev only.
+    QA and Prod lakehouses are created (and paired) by the Fabric deployment
+    pipeline on the first Dev -> QA -> Prod deployment. Set to ["dev", "qa", "prod"]
+    only if you deploy without deployment pipelines (e.g. fabric-cicd).
+  EOT
+  type        = list(string)
+  default     = ["dev"]
+
+  validation {
+    condition     = alltrue([for e in var.lakehouse_environments : contains(["dev", "qa", "prod"], e)])
+    error_message = "lakehouse_environments may only contain dev, qa, prod."
   }
 }

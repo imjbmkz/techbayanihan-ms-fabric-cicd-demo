@@ -1,2 +1,4 @@
 # Optional: copy to terraform.tfvars to override defaults.
-# capacity_name = "fabnyctaxidemo"
+# capacity_name          = "fabnyctaxidemo"
+# lakehouse_name         = "AwesomeLH"
+# lakehouse_environments = ["dev"]   # QA/Prod lakehouses come from the deployment pipeline
