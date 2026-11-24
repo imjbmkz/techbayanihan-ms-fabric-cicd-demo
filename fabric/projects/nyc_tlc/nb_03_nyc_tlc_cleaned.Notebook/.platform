@@ -3,7 +3,7 @@
   "metadata": {
     "type": "Notebook",
     "displayName": "nb_03_nyc_tlc_cleaned",
-    "description": "raw -> cleaned: typed yellow taxi trips with DQ flags (__dq table) and materialized lake views for passed (__cleaned) and failed (__quarantined) rows; cleaned taxi zone lookup."
+    "description": "raw -> cleaned (Spark SQL): __dq table with data quality flags, __cleaned / __quarantined materialized lake views, cleaned zone lookup."
   },
   "config": {
     "version": "2.0",

@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
     "type": "Notebook",
-    "displayName": "nb_02_nyc_tlc_raw_config",
-    "description": "Declares the nyc_tlc raw sources in ops.raw_ingestion_config (MERGE). Run before nb_raw_ingest."
+    "displayName": "nb_02_nyc_tlc_raw",
+    "description": "Data lake -> raw (PySpark): yellow taxi trips (incremental by file) and taxi zone lookup (full refresh)."
   },
   "config": {
     "version": "2.0",

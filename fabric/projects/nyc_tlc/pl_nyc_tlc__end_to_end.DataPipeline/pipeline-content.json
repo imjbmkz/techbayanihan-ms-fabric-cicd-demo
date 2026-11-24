@@ -4,68 +4,84 @@
       {
         "type": "TridentNotebook",
         "typeProperties": {
+          "notebookId": "e369717c-97ee-a88b-4bd8-9209b6bd2089",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "nb_00_setup_lakehouse",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
           "notebookId": "c90ec142-7221-4124-88e6-67d12ed730ae",
           "workspaceId": "00000000-0000-0000-0000-000000000000",
           "parameters": {
-            "start_month": {
+            "START_MONTH": {
               "value": "2026-01",
               "type": "string"
             },
-            "end_month": {
+            "END_MONTH": {
               "value": "2026-09",
               "type": "string"
             },
-            "trip_type": {
+            "TRIP_TYPE": {
               "value": "yellow",
               "type": "string"
             },
-            "include_trips": {
+            "INCLUDE_TRIPS": {
               "value": true,
               "type": "bool"
             },
-            "include_reference": {
+            "INCLUDE_REFERENCE": {
               "value": true,
               "type": "bool"
             },
-            "extract_zones_zip": {
+            "EXTRACT_ZONES_ZIP": {
               "value": true,
               "type": "bool"
             },
-            "source_base_url": {
+            "SOURCE_BASE_URL": {
               "value": "https://d37ci6vzurychx.cloudfront.net",
               "type": "string"
             },
-            "datalake_root": {
+            "DATALAKE_ROOT": {
               "value": "Files/datalake/nyc_tlc",
               "type": "string"
             },
-            "overwrite": {
+            "OVERWRITE": {
               "value": false,
               "type": "bool"
             },
-            "fail_on_missing": {
+            "FAIL_ON_MISSING": {
               "value": false,
               "type": "bool"
             },
-            "run_id": {
+            "RUN_ID": {
               "value": {
-                "value": "@pipeline().Pipeline",
+                "value": "@pipeline().RunId",
                 "type": "Expression"
               },
               "type": "string"
             },
-            "pipeline_name": {
+            "PIPELINE_NAME": {
               "value": {
                 "value": "@pipeline().PipelineName",
                 "type": "Expression"
               },
               "type": "string"
             },
-            "log_schema": {
+            "LOG_SCHEMA": {
               "value": "ops",
               "type": "string"
             },
-            "log_folder": {
+            "LOG_FOLDER": {
               "value": "Files/logs",
               "type": "string"
             }
@@ -73,13 +89,20 @@
         },
         "policy": {
           "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
+          "retry": 2,
+          "retryIntervalInSeconds": 120,
           "secureInput": false,
           "secureOutput": false
         },
         "name": "nb_01_ingest_nyc_tlc",
-        "dependsOn": []
+        "dependsOn": [
+          {
+            "activity": "nb_00_setup_lakehouse",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
       },
       {
         "type": "TridentNotebook",
@@ -87,35 +110,13 @@
           "notebookId": "95ce001e-10b1-46c6-ba46-75a9143341eb",
           "workspaceId": "00000000-0000-0000-0000-000000000000",
           "parameters": {
-            "config_table": {
-              "value": "ops.raw_ingestion_config",
+            "DATALAKE_ROOT": {
+              "value": "Files/datalake/nyc_tlc",
               "type": "string"
             },
-            "run_ingestion": {
-              "value": true,
-              "type": "bool"
-            },
-            "force_full_reload": {
+            "FULL_RELOAD": {
               "value": false,
               "type": "bool"
-            },
-            "ingestion_timeout_s": {
-              "value": "3600",
-              "type": "int"
-            },
-            "run_id": {
-              "value": {
-                "value": "@pipeline().Pipeline",
-                "type": "Expression"
-              },
-              "type": "string"
-            },
-            "pipeline_name": {
-              "value": {
-                "value": "@pipeline().PipelineName",
-                "type": "Expression"
-              },
-              "type": "string"
             }
           }
         },
@@ -126,7 +127,7 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "nb_02_nyc_tlc_raw_config",
+        "name": "nb_02_nyc_tlc_raw",
         "dependsOn": [
           {
             "activity": "nb_01_ingest_nyc_tlc",
@@ -140,23 +141,7 @@
         "type": "TridentNotebook",
         "typeProperties": {
           "notebookId": "db68d1b6-d4cc-41d7-ad32-b708a9dc089a",
-          "workspaceId": "00000000-0000-0000-0000-000000000000",
-          "parameters": {
-            "run_id": {
-              "value": {
-                "value": "@pipeline().Pipeline",
-                "type": "Expression"
-              },
-              "type": "string"
-            },
-            "pipeline_name": {
-              "value": {
-                "value": "@pipeline().PipelineName",
-                "type": "Expression"
-              },
-              "type": "string"
-            }
-          }
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
         },
         "policy": {
           "timeout": "0.12:00:00",
@@ -168,7 +153,7 @@
         "name": "nb_03_nyc_tlc_cleaned",
         "dependsOn": [
           {
-            "activity": "nb_02_nyc_tlc_raw_config",
+            "activity": "nb_02_nyc_tlc_raw",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -179,23 +164,7 @@
         "type": "TridentNotebook",
         "typeProperties": {
           "notebookId": "e6d8c6f8-d7e8-47fc-b5b2-f346c28ff815",
-          "workspaceId": "00000000-0000-0000-0000-000000000000",
-          "parameters": {
-            "run_id": {
-              "value": {
-                "value": "@pipeline().Pipeline",
-                "type": "Expression"
-              },
-              "type": "string"
-            },
-            "pipeline_name": {
-              "value": {
-                "value": "@pipeline().PipelineName",
-                "type": "Expression"
-              },
-              "type": "string"
-            }
-          }
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
         },
         "policy": {
           "timeout": "0.12:00:00",
@@ -218,23 +187,7 @@
         "type": "TridentNotebook",
         "typeProperties": {
           "notebookId": "fbf580ed-abfe-44b1-8c56-45da9d242559",
-          "workspaceId": "00000000-0000-0000-0000-000000000000",
-          "parameters": {
-            "run_id": {
-              "value": {
-                "value": "@pipeline().Pipeline",
-                "type": "Expression"
-              },
-              "type": "string"
-            },
-            "pipeline_name": {
-              "value": {
-                "value": "@pipeline().PipelineName",
-                "type": "Expression"
-              },
-              "type": "string"
-            }
-          }
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
         },
         "policy": {
           "timeout": "0.12:00:00",

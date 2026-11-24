@@ -3,7 +3,7 @@
   "metadata": {
     "type": "Notebook",
     "displayName": "nb_05_nyc_tlc_semantic",
-    "description": "mart -> semantic: report-ready daily trip aggregates by pickup zone."
+    "description": "mart -> semantic (Spark SQL): daily yellow taxi KPIs by pickup zone."
   },
   "config": {
     "version": "2.0",
