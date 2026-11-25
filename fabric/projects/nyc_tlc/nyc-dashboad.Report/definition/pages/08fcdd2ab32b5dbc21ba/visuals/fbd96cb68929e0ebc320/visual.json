@@ -41,11 +41,11 @@
                       "Entity": "nyc_tlc__sem_daily_zone_trips"
                     }
                   },
-                  "Property": "Trips"
+                  "Property": "Total Trips"
                 }
               },
-              "queryRef": "nyc_tlc__sem_daily_zone_trips.Trips",
-              "nativeQueryRef": "Trips"
+              "queryRef": "nyc_tlc__sem_daily_zone_trips.Total Trips",
+              "nativeQueryRef": "Total Trips"
             }
           ]
         }
