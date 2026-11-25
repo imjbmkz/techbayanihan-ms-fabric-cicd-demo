@@ -248,7 +248,7 @@ table nyc_tlc__sem_daily_zone_trips
 		annotation SummarizationSetBy = Automatic
 
 	/// Number of yellow taxi trips that passed data quality checks
-	measure Trips = SUM ( nyc_tlc__sem_daily_zone_trips[trips] )
+	measure 'Total Trips' = SUM ( nyc_tlc__sem_daily_zone_trips[trips] )
 		formatString: #,0
 		displayFolder: KPIs
 		lineageTag: 983671c7-8543-4211-9121-5ddb21e6e39c
@@ -260,31 +260,31 @@ table nyc_tlc__sem_daily_zone_trips
 		lineageTag: fc2f707b-aca4-41c7-bbac-531fa3f7cadd
 
 	/// Revenue / Trips (USD)
-	measure 'Avg Revenue per Trip' = DIVIDE ( [Revenue], [Trips] )
+	measure 'Avg Revenue per Trip' = DIVIDE ( [Revenue], [Total Trips] )
 		formatString: \$#,0.00
 		displayFolder: KPIs
 		lineageTag: fbcfd991-b046-4891-ab3e-7f0ae4da6902
 
 	/// Share of trips paid by credit card
-	measure 'Card Share' = DIVIDE ( SUM ( nyc_tlc__sem_daily_zone_trips[card_trips] ), [Trips] )
+	measure 'Card Share' = DIVIDE ( SUM ( nyc_tlc__sem_daily_zone_trips[card_trips] ), [Total Trips] )
 		formatString: 0.0%
 		displayFolder: KPIs
 		lineageTag: 34eb7aaa-5dab-4f74-bd9e-2bda962cbfcc
 
 	/// Total passengers
-	measure Passengers = SUM ( nyc_tlc__sem_daily_zone_trips[passengers] )
+	measure 'Total Passengers' = SUM ( nyc_tlc__sem_daily_zone_trips[passengers] )
 		formatString: #,0
 		displayFolder: Trip profile
 		lineageTag: 64b29fa7-8d6d-488e-a7a9-7f549eeccacf
 
 	/// Average trip distance in miles
-	measure 'Avg Distance (mi)' = DIVIDE ( SUM ( nyc_tlc__sem_daily_zone_trips[total_distance_mi] ), [Trips] )
+	measure 'Avg Distance (mi)' = DIVIDE ( SUM ( nyc_tlc__sem_daily_zone_trips[total_distance_mi] ), [Total Trips] )
 		formatString: #,0.00
 		displayFolder: Trip profile
 		lineageTag: 395b0a69-577b-45ed-ada7-5bcaf1726dee
 
 	/// Trip-weighted average duration in minutes
-	measure 'Avg Duration (min)' = DIVIDE ( SUMX ( nyc_tlc__sem_daily_zone_trips, nyc_tlc__sem_daily_zone_trips[avg_duration_min] * nyc_tlc__sem_daily_zone_trips[trips] ), [Trips] )
+	measure 'Avg Duration (min)' = DIVIDE ( SUMX ( nyc_tlc__sem_daily_zone_trips, nyc_tlc__sem_daily_zone_trips[avg_duration_min] * nyc_tlc__sem_daily_zone_trips[trips] ), [Total Trips] )
 		formatString: #,0.0
 		displayFolder: Trip profile
 		lineageTag: 6752acb3-2477-4144-944d-85c196e44f61
@@ -296,7 +296,7 @@ table nyc_tlc__sem_daily_zone_trips
 		lineageTag: e195b48d-4aa0-4e47-9f7b-0ce9ca61b48c
 
 	/// Average trips per day with data
-	measure 'Trips per Day' = DIVIDE ( [Trips], DISTINCTCOUNT ( nyc_tlc__sem_daily_zone_trips[date_key] ) )
+	measure 'Trips per Day' = DIVIDE ( [Total Trips], DISTINCTCOUNT ( nyc_tlc__sem_daily_zone_trips[date_key] ) )
 		formatString: #,0
 		displayFolder: Trip profile
 		lineageTag: 5d65ed54-b6c2-4b64-9691-65d68074a824
