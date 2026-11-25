@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "a52d0dd9056466bd9219",
+  "position": {
+    "x": 970,
+    "y": 190,
+    "z": 6000,
+    "height": 150,
+    "width": 445,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "nyc_tlc__sem_daily_zone_trips"
+                    }
+                  },
+                  "Property": "Avg Revenue per Trip"
+                }
+              },
+              "queryRef": "nyc_tlc__sem_daily_zone_trips.Avg Revenue per Trip",
+              "nativeQueryRef": "Avg Revenue per Trip"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

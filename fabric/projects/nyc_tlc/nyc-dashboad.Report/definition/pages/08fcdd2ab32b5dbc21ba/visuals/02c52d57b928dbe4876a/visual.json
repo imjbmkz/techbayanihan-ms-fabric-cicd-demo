@@ -1,0 +1,75 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "02c52d57b928dbe4876a",
+  "position": {
+    "x": 1660,
+    "y": 60,
+    "z": 3000,
+    "height": 100,
+    "width": 220,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "nyc_tlc__dim_date"
+                    }
+                  },
+                  "Property": "is_weekend"
+                }
+              },
+              "queryRef": "nyc_tlc__dim_date.is_weekend",
+              "nativeQueryRef": "is_weekend"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Weekend?'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
