@@ -3,6 +3,7 @@ table nyc_tlc__sem_daily_zone_trips
 	sourceLineageTag: [semantic].[nyc_tlc__sem_daily_zone_trips]
 
 	column date_key
+		isHidden
 		dataType: int64
 		formatString: 0
 		lineageTag: 1ecb8359-8daa-4c3e-a600-bfd2e957574e
@@ -13,6 +14,7 @@ table nyc_tlc__sem_daily_zone_trips
 		annotation SummarizationSetBy = Automatic
 
 	column date
+		isHidden
 		dataType: dateTime
 		formatString: General Date
 		lineageTag: fb16d4dd-00cf-4b6f-a5c4-2eb2adc05443
@@ -23,6 +25,7 @@ table nyc_tlc__sem_daily_zone_trips
 		annotation SummarizationSetBy = Automatic
 
 	column year
+		isHidden
 		dataType: int64
 		formatString: 0
 		lineageTag: 336fbb50-7a8f-428f-9099-cb1f6410919c
@@ -33,6 +36,7 @@ table nyc_tlc__sem_daily_zone_trips
 		annotation SummarizationSetBy = Automatic
 
 	column month
+		isHidden
 		dataType: int64
 		formatString: 0
 		lineageTag: 4ba278cc-2770-42a3-83ab-aae2fd855919
@@ -43,6 +47,7 @@ table nyc_tlc__sem_daily_zone_trips
 		annotation SummarizationSetBy = Automatic
 
 	column month_name
+		isHidden
 		dataType: string
 		lineageTag: 107f0272-af54-4e3f-8d52-7ba580af9c5e
 		sourceLineageTag: month_name
@@ -52,6 +57,7 @@ table nyc_tlc__sem_daily_zone_trips
 		annotation SummarizationSetBy = Automatic
 
 	column year_month
+		isHidden
 		dataType: string
 		lineageTag: 829d9af5-90a5-45c1-ada1-6c4e41693150
 		sourceLineageTag: year_month
@@ -61,6 +67,7 @@ table nyc_tlc__sem_daily_zone_trips
 		annotation SummarizationSetBy = Automatic
 
 	column day_name
+		isHidden
 		dataType: string
 		lineageTag: fa17677b-4706-4397-a2a1-8fa5b84317fd
 		sourceLineageTag: day_name
@@ -70,6 +77,7 @@ table nyc_tlc__sem_daily_zone_trips
 		annotation SummarizationSetBy = Automatic
 
 	column is_weekend
+		isHidden
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
 		lineageTag: 1a7af9c6-8e40-4860-9f20-ea87d4a45f60
@@ -80,6 +88,7 @@ table nyc_tlc__sem_daily_zone_trips
 		annotation SummarizationSetBy = Automatic
 
 	column pickup_location_id
+		isHidden
 		dataType: int64
 		formatString: 0
 		lineageTag: 72fbafb6-d4aa-4c8a-aea5-cd72383e7c2c
@@ -90,6 +99,7 @@ table nyc_tlc__sem_daily_zone_trips
 		annotation SummarizationSetBy = Automatic
 
 	column pickup_borough
+		isHidden
 		dataType: string
 		lineageTag: 91d5e261-2a1a-4b5f-9c13-a4a3b6e3940b
 		sourceLineageTag: pickup_borough
@@ -99,6 +109,7 @@ table nyc_tlc__sem_daily_zone_trips
 		annotation SummarizationSetBy = Automatic
 
 	column pickup_zone
+		isHidden
 		dataType: string
 		lineageTag: 00734bc1-e86f-4577-8387-a48b601797e9
 		sourceLineageTag: pickup_zone
@@ -235,6 +246,60 @@ table nyc_tlc__sem_daily_zone_trips
 		sourceColumn: cash_trips
 
 		annotation SummarizationSetBy = Automatic
+
+	/// Number of yellow taxi trips that passed data quality checks
+	measure Trips = SUM ( nyc_tlc__sem_daily_zone_trips[trips] )
+		formatString: #,0
+		displayFolder: KPIs
+		lineageTag: 983671c7-8543-4211-9121-5ddb21e6e39c
+
+	/// Total amount charged (USD), all payment types
+	measure Revenue = SUM ( nyc_tlc__sem_daily_zone_trips[total_revenue] )
+		formatString: \$#,0
+		displayFolder: KPIs
+		lineageTag: fc2f707b-aca4-41c7-bbac-531fa3f7cadd
+
+	/// Revenue / Trips (USD)
+	measure 'Avg Revenue per Trip' = DIVIDE ( [Revenue], [Trips] )
+		formatString: \$#,0.00
+		displayFolder: KPIs
+		lineageTag: fbcfd991-b046-4891-ab3e-7f0ae4da6902
+
+	/// Share of trips paid by credit card
+	measure 'Card Share' = DIVIDE ( SUM ( nyc_tlc__sem_daily_zone_trips[card_trips] ), [Trips] )
+		formatString: 0.0%
+		displayFolder: KPIs
+		lineageTag: 34eb7aaa-5dab-4f74-bd9e-2bda962cbfcc
+
+	/// Total passengers
+	measure Passengers = SUM ( nyc_tlc__sem_daily_zone_trips[passengers] )
+		formatString: #,0
+		displayFolder: Trip profile
+		lineageTag: 64b29fa7-8d6d-488e-a7a9-7f549eeccacf
+
+	/// Average trip distance in miles
+	measure 'Avg Distance (mi)' = DIVIDE ( SUM ( nyc_tlc__sem_daily_zone_trips[total_distance_mi] ), [Trips] )
+		formatString: #,0.00
+		displayFolder: Trip profile
+		lineageTag: 395b0a69-577b-45ed-ada7-5bcaf1726dee
+
+	/// Trip-weighted average duration in minutes
+	measure 'Avg Duration (min)' = DIVIDE ( SUMX ( nyc_tlc__sem_daily_zone_trips, nyc_tlc__sem_daily_zone_trips[avg_duration_min] * nyc_tlc__sem_daily_zone_trips[trips] ), [Trips] )
+		formatString: #,0.0
+		displayFolder: Trip profile
+		lineageTag: 6752acb3-2477-4144-944d-85c196e44f61
+
+	/// Tips / fare; cash tips are not recorded by TLC, so this understates tipping
+	measure 'Tips % of Fare' = DIVIDE ( SUM ( nyc_tlc__sem_daily_zone_trips[total_tips] ), SUM ( nyc_tlc__sem_daily_zone_trips[total_fare] ) )
+		formatString: 0.0%
+		displayFolder: Trip profile
+		lineageTag: e195b48d-4aa0-4e47-9f7b-0ce9ca61b48c
+
+	/// Average trips per day with data
+	measure 'Trips per Day' = DIVIDE ( [Trips], DISTINCTCOUNT ( nyc_tlc__sem_daily_zone_trips[date_key] ) )
+		formatString: #,0
+		displayFolder: Trip profile
+		lineageTag: 5d65ed54-b6c2-4b64-9691-65d68074a824
 
 	partition nyc_tlc__sem_daily_zone_trips = entity
 		mode: directLake

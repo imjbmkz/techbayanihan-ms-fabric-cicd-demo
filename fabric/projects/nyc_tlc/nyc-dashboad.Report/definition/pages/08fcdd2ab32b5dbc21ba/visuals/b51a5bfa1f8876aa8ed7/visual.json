@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "b51a5bfa1f8876aa8ed7",
+  "position": {
+    "x": 1435,
+    "y": 190,
+    "z": 7000,
+    "height": 150,
+    "width": 445,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "nyc_tlc__sem_daily_zone_trips"
+                    }
+                  },
+                  "Property": "Card Share"
+                }
+              },
+              "queryRef": "nyc_tlc__sem_daily_zone_trips.Card Share",
+              "nativeQueryRef": "Card Share"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

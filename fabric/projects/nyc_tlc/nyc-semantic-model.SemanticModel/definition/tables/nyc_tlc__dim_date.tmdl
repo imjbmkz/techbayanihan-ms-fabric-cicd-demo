@@ -54,6 +54,7 @@ table nyc_tlc__dim_date
 
 	column month_name
 		dataType: string
+		sortByColumn: month
 		lineageTag: 277183fd-9022-415b-a590-3f252ac1d901
 		sourceLineageTag: month_name
 		summarizeBy: none
@@ -92,6 +93,7 @@ table nyc_tlc__dim_date
 
 	column day_name
 		dataType: string
+		sortByColumn: day_of_week
 		lineageTag: 4456ee0d-4e6a-47dd-a04b-cdb87df7e4fc
 		sourceLineageTag: day_name
 		summarizeBy: none
