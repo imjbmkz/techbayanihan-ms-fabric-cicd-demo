@@ -31,6 +31,7 @@
 # **Conformed schema:** monthly TLC files don't always use the same column types or casing (`Airport_fee` vs `airport_fee`). Each file is mapped to one fixed column list and types, so appends never fail on drift.
 # *Alternative:* Spark Structured Streaming (`readStream` + checkpoint + `trigger(availableNow=True)`) also processes only new files. It needs one fixed schema for every file, which the drifting monthly files don't guarantee, so this notebook tracks files itself.
 
+
 # PARAMETERS CELL ********************
 
 DATALAKE_ROOT = "Files/datalake/nyc_tlc"   # where nb_01_ingest_nyc_tlc lands files
