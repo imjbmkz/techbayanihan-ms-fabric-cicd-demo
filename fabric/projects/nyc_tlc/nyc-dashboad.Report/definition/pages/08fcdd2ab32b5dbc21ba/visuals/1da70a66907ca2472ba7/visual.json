@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "1da70a66907ca2472ba7",
+  "position": {
+    "x": 39.587628865979383,
+    "y": 52.783505154639172,
+    "z": 0,
+    "height": 112.16494845360825,
+    "width": 1123.848797250859,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "NYC Yellow Taxi Dashboard",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "44pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

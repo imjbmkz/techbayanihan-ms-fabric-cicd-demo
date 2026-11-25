@@ -1,0 +1,48 @@
+table nyc_tlc__dim_zone
+	lineageTag: 5d97a281-bbbc-428c-b9f8-338c172c4c4e
+	sourceLineageTag: [mart].[nyc_tlc__dim_zone]
+
+	column location_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e729f7e1-d595-4ca9-82b8-3e6d0b16b3fa
+		sourceLineageTag: location_id
+		summarizeBy: none
+		sourceColumn: location_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column borough
+		dataType: string
+		lineageTag: 8d9f9b4f-7f92-4dbb-856f-b76c3e4a5360
+		sourceLineageTag: borough
+		summarizeBy: none
+		sourceColumn: borough
+
+		annotation SummarizationSetBy = Automatic
+
+	column zone
+		dataType: string
+		lineageTag: 193d7e8d-e47c-4fa7-8f24-277adb20fd1e
+		sourceLineageTag: zone
+		summarizeBy: none
+		sourceColumn: zone
+
+		annotation SummarizationSetBy = Automatic
+
+	column service_zone
+		dataType: string
+		lineageTag: c4f1bfcf-d904-4898-87c9-702c13b28dcd
+		sourceLineageTag: service_zone
+		summarizeBy: none
+		sourceColumn: service_zone
+
+		annotation SummarizationSetBy = Automatic
+
+	partition nyc_tlc__dim_zone = entity
+		mode: directLake
+		source
+			entityName: nyc_tlc__dim_zone
+			schemaName: mart
+			expressionSource: 'DirectLake - AwesomeLH'
+

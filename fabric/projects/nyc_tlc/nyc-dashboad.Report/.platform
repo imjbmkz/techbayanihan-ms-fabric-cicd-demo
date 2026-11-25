@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "nyc-dashboad"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "b6b30acd-4f32-a57a-4685-60cb281e7ca6"
+  }
+}

@@ -1,0 +1,245 @@
+table nyc_tlc__sem_daily_zone_trips
+	lineageTag: 34e9641c-6ea4-4bb3-a222-da647041e349
+	sourceLineageTag: [semantic].[nyc_tlc__sem_daily_zone_trips]
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 1ecb8359-8daa-4c3e-a600-bfd2e957574e
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: fb16d4dd-00cf-4b6f-a5c4-2eb2adc05443
+		sourceLineageTag: date
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 336fbb50-7a8f-428f-9099-cb1f6410919c
+		sourceLineageTag: year
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 4ba278cc-2770-42a3-83ab-aae2fd855919
+		sourceLineageTag: month
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: 107f0272-af54-4e3f-8d52-7ba580af9c5e
+		sourceLineageTag: month_name
+		summarizeBy: none
+		sourceColumn: month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month
+		dataType: string
+		lineageTag: 829d9af5-90a5-45c1-ada1-6c4e41693150
+		sourceLineageTag: year_month
+		summarizeBy: none
+		sourceColumn: year_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_name
+		dataType: string
+		lineageTag: fa17677b-4706-4397-a2a1-8fa5b84317fd
+		sourceLineageTag: day_name
+		summarizeBy: none
+		sourceColumn: day_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_weekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1a7af9c6-8e40-4860-9f20-ea87d4a45f60
+		sourceLineageTag: is_weekend
+		summarizeBy: none
+		sourceColumn: is_weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column pickup_location_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 72fbafb6-d4aa-4c8a-aea5-cd72383e7c2c
+		sourceLineageTag: pickup_location_id
+		summarizeBy: none
+		sourceColumn: pickup_location_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column pickup_borough
+		dataType: string
+		lineageTag: 91d5e261-2a1a-4b5f-9c13-a4a3b6e3940b
+		sourceLineageTag: pickup_borough
+		summarizeBy: none
+		sourceColumn: pickup_borough
+
+		annotation SummarizationSetBy = Automatic
+
+	column pickup_zone
+		dataType: string
+		lineageTag: 00734bc1-e86f-4577-8387-a48b601797e9
+		sourceLineageTag: pickup_zone
+		summarizeBy: none
+		sourceColumn: pickup_zone
+
+		annotation SummarizationSetBy = Automatic
+
+	column trips
+		dataType: int64
+		formatString: 0
+		lineageTag: 432161ac-b12e-4a1d-9939-7b6cc3838287
+		sourceLineageTag: trips
+		summarizeBy: sum
+		sourceColumn: trips
+
+		annotation SummarizationSetBy = Automatic
+
+	column passengers
+		dataType: int64
+		formatString: 0
+		lineageTag: f4d13016-9b5c-4dec-a8bf-7f0819af00f7
+		sourceLineageTag: passengers
+		summarizeBy: sum
+		sourceColumn: passengers
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_distance_mi
+		dataType: double
+		lineageTag: 9e76842e-6e75-4afa-9125-0279e86da515
+		sourceLineageTag: total_distance_mi
+		summarizeBy: sum
+		sourceColumn: total_distance_mi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_distance_mi
+		dataType: double
+		lineageTag: 96ff0c50-3f30-4370-a2b3-b3bb9c4194d2
+		sourceLineageTag: avg_distance_mi
+		summarizeBy: sum
+		sourceColumn: avg_distance_mi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_duration_min
+		dataType: double
+		lineageTag: a6e2f84c-710a-4efd-bb92-7de6efa43bdb
+		sourceLineageTag: avg_duration_min
+		summarizeBy: sum
+		sourceColumn: avg_duration_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_fare
+		dataType: double
+		lineageTag: 1379b142-9b2b-4578-86c8-838b70cfc7b0
+		sourceLineageTag: total_fare
+		summarizeBy: sum
+		sourceColumn: total_fare
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_tips
+		dataType: double
+		lineageTag: 058a8bdb-a42f-4432-8ba7-987e6e47622f
+		sourceLineageTag: total_tips
+		summarizeBy: sum
+		sourceColumn: total_tips
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_revenue
+		dataType: double
+		lineageTag: 64581dbc-f9c8-4764-8798-7488e9a7e1be
+		sourceLineageTag: total_revenue
+		summarizeBy: sum
+		sourceColumn: total_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_total_amount
+		dataType: decimal
+		formatString: "₱"#,0.###############;-"₱"#,0.###############;"₱"#,0.###############
+		lineageTag: d4dada9e-543f-4a37-8f03-e03b49006753
+		sourceLineageTag: avg_total_amount
+		summarizeBy: sum
+		sourceColumn: avg_total_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-PH"}
+
+	column tip_pct_of_fare
+		dataType: double
+		lineageTag: d0e03eb9-5210-415b-9a25-c2a534d459d5
+		sourceLineageTag: tip_pct_of_fare
+		summarizeBy: sum
+		sourceColumn: tip_pct_of_fare
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column card_trips
+		dataType: int64
+		formatString: 0
+		lineageTag: 4cedabe7-33f3-4799-b736-82e6f41a1ae5
+		sourceLineageTag: card_trips
+		summarizeBy: sum
+		sourceColumn: card_trips
+
+		annotation SummarizationSetBy = Automatic
+
+	column cash_trips
+		dataType: int64
+		formatString: 0
+		lineageTag: 43084a16-f74d-4984-a02d-321f6be58d44
+		sourceLineageTag: cash_trips
+		summarizeBy: sum
+		sourceColumn: cash_trips
+
+		annotation SummarizationSetBy = Automatic
+
+	partition nyc_tlc__sem_daily_zone_trips = entity
+		mode: directLake
+		source
+			entityName: nyc_tlc__sem_daily_zone_trips
+			schemaName: semantic
+			expressionSource: 'DirectLake - AwesomeLH'
+

@@ -1,0 +1,11 @@
+expression 'DirectLake - AwesomeLH' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/e1127f86-76fc-45a2-8c21-350a41e41a8d/a05dbecc-1c93-44b9-8c73-8b6bff7026b1", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: 19196594-ebfe-4375-a497-0d143891c540
+
+	annotation PBI_IncludeFutureArtifacts = False
+
+	annotation PBI_RemovedChildren = [{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[cleaned].[nyc_tlc__yellow_taxi_trips__dq]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[cleaned].[nyc_tlc__yellow_taxi_trips__cleaned]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[cleaned].[nyc_tlc__yellow_taxi_trips__quarantined]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[cleaned].[nyc_tlc__taxi_zone_lookup__cleaned]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[sys_dq_metrics]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[mart].[nyc_tlc__fact_yellow_taxi_trips]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[mart].[nyc_tlc__dim_vendor]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[mart].[nyc_tlc__dim_payment_type]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[mart].[nyc_tlc__dim_rate_code]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[ops].[ingestion_runs]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[ops].[ingestion_log]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[raw].[nyc_tlc__taxi_zone_lookup__raw]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[raw].[nyc_tlc__yellow_taxi_trips__raw]"}},"objectType":"Table"}]
+

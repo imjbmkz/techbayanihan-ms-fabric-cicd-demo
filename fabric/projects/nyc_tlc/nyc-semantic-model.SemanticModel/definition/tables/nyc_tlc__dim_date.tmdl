@@ -1,0 +1,118 @@
+table nyc_tlc__dim_date
+	lineageTag: b8ea910e-ac74-4a28-ac18-283590822280
+	sourceLineageTag: [mart].[nyc_tlc__dim_date]
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 9c5a0b62-f3a4-4fa8-adea-9f326ce7670d
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d96b584f-224a-4cef-afae-b73ab1e4ac9c
+		sourceLineageTag: date
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: ccbfb604-7c90-454c-8bac-b0518f526f20
+		sourceLineageTag: year
+		summarizeBy: none
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 0bf851e2-bfb7-426b-9df9-9549af5b67d8
+		sourceLineageTag: quarter
+		summarizeBy: none
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 61f5f944-b200-4650-90b6-a268d8ad58d4
+		sourceLineageTag: month
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: 277183fd-9022-415b-a590-3f252ac1d901
+		sourceLineageTag: month_name
+		summarizeBy: none
+		sourceColumn: month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month
+		dataType: string
+		lineageTag: 79f0aec5-e5f0-493e-a0b2-6b4df0af1f95
+		sourceLineageTag: year_month
+		summarizeBy: none
+		sourceColumn: year_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_month
+		dataType: int64
+		formatString: 0
+		lineageTag: af148b7f-75ee-40fc-bf1a-a54ba850a746
+		sourceLineageTag: day_of_month
+		summarizeBy: none
+		sourceColumn: day_of_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week
+		dataType: int64
+		formatString: 0
+		lineageTag: 7bf8f18a-3654-4fec-898d-4044af74bc78
+		sourceLineageTag: day_of_week
+		summarizeBy: none
+		sourceColumn: day_of_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_name
+		dataType: string
+		lineageTag: 4456ee0d-4e6a-47dd-a04b-cdb87df7e4fc
+		sourceLineageTag: day_name
+		summarizeBy: none
+		sourceColumn: day_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_weekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5d03f984-31ab-4ae0-91ba-2fdf90713802
+		sourceLineageTag: is_weekend
+		summarizeBy: none
+		sourceColumn: is_weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	partition nyc_tlc__dim_date = entity
+		mode: directLake
+		source
+			entityName: nyc_tlc__dim_date
+			schemaName: mart
+			expressionSource: 'DirectLake - AwesomeLH'
+

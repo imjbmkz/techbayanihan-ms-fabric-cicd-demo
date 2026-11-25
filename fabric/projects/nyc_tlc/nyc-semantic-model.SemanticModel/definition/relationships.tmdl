@@ -1,0 +1,8 @@
+relationship 31818724-287d-8f1a-4b74-71df8c611761
+	fromColumn: nyc_tlc__sem_daily_zone_trips.date_key
+	toColumn: nyc_tlc__dim_date.date_key
+
+relationship feba78f9-d103-e114-2280-868bd0c5ded6
+	fromColumn: nyc_tlc__sem_daily_zone_trips.pickup_location_id
+	toColumn: nyc_tlc__dim_zone.location_id
+
